@@ -29,14 +29,20 @@ namespace MusicBox.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EventFormViewModel eventItem)
         {
+            if (!ModelState.IsValid)
+            {
+                eventItem.Genres = _context.Genres.ToList();
+                return View("Create", eventItem);
+            }
 
             var item = new Event()
             {
                 PerformerId = User.Identity.GetUserId(),
                 Address = eventItem.Address,
-                DateTime = eventItem.DateTime,
+                DateTime = eventItem.GetDateTime(),
                 GenreId = eventItem.Genre
             };
 

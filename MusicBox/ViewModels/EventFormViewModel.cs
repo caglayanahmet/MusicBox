@@ -11,9 +11,11 @@ namespace MusicBox.ViewModels
         public string  Address { get; set; }
         
         [Required]
+        [FutureDate]
         public string Date { get; set; }
         
         [Required]
+        [ValidTime]
         public string Time { get; set; }
         
         [Required]
@@ -21,9 +23,9 @@ namespace MusicBox.ViewModels
 
         public IEnumerable<Genre> Genres { get; set; }
 
-        public DateTime DateTime
+        public DateTime GetDateTime()
         {
-            get{return DateTime.Parse(string.Format("{0} {1}",Date,Time));}
+            return DateTime.Parse($"{Date} {Time}");
         }
     }
 }
