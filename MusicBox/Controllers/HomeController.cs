@@ -1,4 +1,5 @@
 ﻿using MusicBox.Models;
+using MusicBox.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -19,10 +20,17 @@ namespace MusicBox.Controllers
         {
             var upcomingEvents = _context.Events
                 .Include(x => x.Performer)
-                .Where(x => x.DateTime > DateTime.Now)
-                .ToList();
+                .Include(x=>x.Genre)
+                .Where(x => x.DateTime > DateTime.Now);
 
-            return View(upcomingEvents);
+            var viewModel = new EventsViewModel
+            {
+                UpcomingEvents = upcomingEvents,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Upcoming Events"
+            };
+
+            return View("Events",viewModel);
         }
 
         public ActionResult About()

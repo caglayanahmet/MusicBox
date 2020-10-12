@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MusicBox.Models;
 using MusicBox.ViewModels;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -14,6 +15,30 @@ namespace MusicBox.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize]
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var events = _context.Attendances
+                .Where(x => x.AttendeeId == userId)
+                .Select(x => x.Event)
+                .Include(x=>x.Performer)
+                .Include(x=>x.Genre)
+                .ToList();
+
+            var viewModel = new EventsViewModel()
+            {
+                UpcomingEvents = events,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Events I'm Attending"
+                
+            };
+
+            return View("Events",viewModel);
+        }
+
 
         [Authorize]
         public ActionResult Create()

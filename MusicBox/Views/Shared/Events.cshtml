@@ -1,0 +1,78 @@
+﻿@model  MusicBox.ViewModels.EventsViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>@Model.Heading</h1>
+<ul class="events voffset3">
+    @foreach (var item in Model.UpcomingEvents)
+    {
+        <li>
+            <div class="date">
+                <div class="month">
+                    @item.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @item.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="performer">
+                    @item.Performer.Name
+
+                    @if (Model.ShowActions)
+                    {
+                        <button class="btn btn-link btn-sm js-toggle-following" data-user-id="@item.PerformerId">Follow?</button>
+                    }
+
+                </span>
+                <span class="genre">
+                    @item.Genre.Name
+                </span>
+
+                @if (Model.ShowActions)
+                {
+                    <button data-event-id="@item.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
+                }
+
+            </div>
+        </li>
+    }
+</ul>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $(".js-toggle-attendance").click(function(e) {
+
+                var button = $(e.target);
+                $.post("/api/attendances", { eventId: button.attr("data-event-id") })
+                    .done(function() {
+                        button
+                            .removeClass("btn-default")
+                            .addClass("btn-info")
+                            .text("Going");
+                    })
+                    .fail(function() {
+                        alert("Failed");
+                    });
+            });
+
+            $(".js-toggle-following").click(function(e) {
+
+                var button = $(e.target);
+                $.post("/api/followings", {
+                        followeeId: button.attr("data-user-id")
+                    })
+                    .done(function() {
+                        button.text("Following");
+                    })
+                    .fail(function() {
+                        alert("Failed");
+                    });
+            });
+        });
+    </script>
+}
