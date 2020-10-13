@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MusicBox.Models;
 using MusicBox.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -14,6 +15,19 @@ namespace MusicBox.Controllers
         public EventsController()
         {
             _context = new ApplicationDbContext();
+        }
+
+        [Authorize]
+        public ActionResult MyEvents()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var events = _context.Events
+                .Where(x => x.PerformerId == userId && x.DateTime > DateTime.Now)
+                .Include(x=>x.Genre)
+                .ToList();
+
+            return View(events);
         }
 
         [Authorize]
@@ -45,12 +59,36 @@ namespace MusicBox.Controllers
         {
             var eventsViewModelItem = new EventFormViewModel()
             {
-                Genres = _context.Genres.ToList()
+                Genres = _context.Genres.ToList(),
+                Heading = "Create New Event"
 
             };
 
-            return View(eventsViewModelItem);
+            return View("EventForm",eventsViewModelItem);
         }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var myevent = _context.Events.FirstOrDefault(x => x.Id == id && x.PerformerId == userId);
+
+            var eventsViewModelItem = new EventFormViewModel()
+            {
+                Genres = _context.Genres.ToList(),
+                Date = myevent.DateTime.ToString("d MMM yyyy"),
+                Time = myevent.DateTime.ToString("HH:mm"),
+                Genre = myevent.GenreId,
+                Address = myevent.Address,
+                Heading = "Edit Event",
+                Id = myevent.Id
+
+            };
+
+            return View("EventForm",eventsViewModelItem);
+        }
+
 
         [Authorize]
         [HttpPost]
@@ -60,7 +98,7 @@ namespace MusicBox.Controllers
             if (!ModelState.IsValid)
             {
                 eventItem.Genres = _context.Genres.ToList();
-                return View("Create", eventItem);
+                return View("EventForm", eventItem);
             }
 
             var item = new Event()
@@ -73,7 +111,31 @@ namespace MusicBox.Controllers
 
             _context.Events.Add(item);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyEvents", "Events");
+        } 
+        
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(EventFormViewModel eventItem)
+        {
+            if (!ModelState.IsValid)
+            {
+                eventItem.Genres = _context.Genres.ToList();
+                return View("EventForm", eventItem);
+            }
+
+            var userId =User.Identity.GetUserId();
+            var myEvent = _context.Events.FirstOrDefault(x => x.Id == eventItem.Id && x.PerformerId == userId);
+
+            myEvent.Address = eventItem.Address;
+            myEvent.DateTime = eventItem.GetDateTime();
+            myEvent.GenreId = eventItem.Genre;
+
+            _context.SaveChanges();
+            return RedirectToAction("MyEvents", "Events");
         }
+
+
     }
 }

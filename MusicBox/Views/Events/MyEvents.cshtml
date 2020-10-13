@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MusicBox.Models.Event>
+@{
+    ViewBag.Title = "MyEvents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h1>My Upcoming Events</h1>
+<ul class="events voffset3">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="date">
+                <div class="month">
+                    @item.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @item.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="performer">
+                    @item.Address
+
+                   </span>
+                <span class="genre">
+                    @item.Genre.Name
+                </span>
+                <div class="actions">
+                    <a href="@Url.Action("Edit","Events",new {id=item.Id})">Edit</a>
+                </div>
+                
+            </div>
+        </li>
+    }
+</ul>
