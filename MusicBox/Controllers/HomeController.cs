@@ -21,7 +21,7 @@ namespace MusicBox.Controllers
             var upcomingEvents = _context.Events
                 .Include(x => x.Performer)
                 .Include(x=>x.Genre)
-                .Where(x => x.DateTime > DateTime.Now);
+                .Where(x => x.DateTime > DateTime.Now && !x.IsCancelled);
 
             var viewModel = new EventsViewModel
             {

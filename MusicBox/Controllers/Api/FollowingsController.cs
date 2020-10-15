@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Linq;
+using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using MusicBox.Dtos;
 using MusicBox.Models;
-using System.Linq;
-using System.Web.Http;
 
-namespace MusicBox.Controllers
+namespace MusicBox.Controllers.Api
 {
     [Authorize]
     public class FollowingsController : ApiController

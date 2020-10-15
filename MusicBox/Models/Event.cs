@@ -7,6 +7,7 @@ namespace MusicBox.Models
     {
         public int Id { get; set; }
 
+        public bool IsCancelled { get; set; }
         
         public ApplicationUser Performer { get; set; }
 

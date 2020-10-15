@@ -21,7 +21,7 @@
                 <span class="performer">
                     @item.Performer.Name
 
-                    @if (Model.ShowActions)
+                    @if (Model.ShowActions && !item.IsCancelled)
                     {
                         <button class="btn btn-link btn-sm js-toggle-following" data-user-id="@item.PerformerId">Follow?</button>
                     }
@@ -29,6 +29,11 @@
                 </span>
                 <span class="genre">
                     @item.Genre.Name
+                    
+                    @if (item.IsCancelled)
+                    {
+                        <span class="label label-warning">Cancelled</span>
+                    }
                 </span>
 
                 @if (Model.ShowActions)

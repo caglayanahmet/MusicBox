@@ -23,7 +23,7 @@ namespace MusicBox.Controllers
             var userId = User.Identity.GetUserId();
 
             var events = _context.Events
-                .Where(x => x.PerformerId == userId && x.DateTime > DateTime.Now)
+                .Where(x => x.PerformerId == userId && x.DateTime > DateTime.Now && !x.IsCancelled)
                 .Include(x=>x.Genre)
                 .ToList();
 

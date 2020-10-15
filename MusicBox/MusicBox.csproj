@@ -181,9 +181,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AttendancesController.cs" />
+    <Compile Include="Controllers\Api\AttendancesController.cs" />
+    <Compile Include="Controllers\Api\EventsController.cs" />
+    <Compile Include="Controllers\Api\FollowingsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
-    <Compile Include="Controllers\FollowingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Dtos\AttendanceDto.cs" />
@@ -223,6 +224,10 @@
     <Compile Include="Migrations\202010121322266_FollowingsTableCreated.Designer.cs">
       <DependentUpon>202010121322266_FollowingsTableCreated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010151026473_IsCancelledPropertyAddedtoEventModel.cs" />
+    <Compile Include="Migrations\202010151026473_IsCancelledPropertyAddedtoEventModel.Designer.cs">
+      <DependentUpon>202010151026473_IsCancelledPropertyAddedtoEventModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Attendance.cs" />
@@ -257,6 +262,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -347,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010121322266_FollowingsTableCreated.resx">
       <DependentUpon>202010121322266_FollowingsTableCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010151026473_IsCancelledPropertyAddedtoEventModel.resx">
+      <DependentUpon>202010151026473_IsCancelledPropertyAddedtoEventModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
