@@ -9,6 +9,8 @@ namespace MusicBox.Models
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Following> Followings { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -24,10 +26,10 @@ namespace MusicBox.Models
         {
             modelBuilder.Entity<Attendance>()
                 .HasRequired(a=>a.Event)
-                .WithMany()
+                .WithMany(x=>x.Attendences)
                 .WillCascadeOnDelete(false);
             
-            base.OnModelCreating(modelBuilder);
+           
 
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(a=>a.Followers)
@@ -38,6 +40,13 @@ namespace MusicBox.Models
                 .HasMany(a=>a.Followees)
                 .WithRequired(a=>a.Follower)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UserNotification>()
+                .HasRequired(x => x.User)
+                .WithMany(x=>x.UserNotifications)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

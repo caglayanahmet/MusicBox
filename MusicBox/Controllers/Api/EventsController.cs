@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using MusicBox.Models;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 
@@ -20,12 +21,15 @@ namespace MusicBox.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            var myEvent = _context.Events.Single(x => x.Id == id && x.PerformerId == userId);
+            var myEvent = _context.Events
+                .Include(x=>x.Attendences.Select(y=>y.Attendee))
+                .Single(x => x.Id == id && x.PerformerId == userId);
 
             if (myEvent.IsCancelled)
                 return NotFound();
+
+            myEvent.Cancel(); 
             
-            myEvent.IsCancelled = true;
             _context.SaveChanges();
 
             return Ok();

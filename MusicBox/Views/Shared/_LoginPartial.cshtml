@@ -5,21 +5,27 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" aria-labelledby="navbarDropdown">
-                @User.Identity.GetUserName()
-                <span class="caret"></span>
-            </a>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="notifications">
+                <a href="#">
+                    <i class="glyphicon glyphicon-globe"></i>
+                    <span class="badge js-notifications-count hide"></span>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" aria-labelledby="navbarDropdown">
+                    @User.Identity.GetUserName()
+                    <span class="caret"></span>
+                </a>
 
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="@Url.Action("MyEvents","Events")">Upcoming Events</a></li>
-                <li><a class="dropdown-item" href="@Url.Action("Attending","Events")">Gigs I'm Going</a></li>
-                <li><a class="dropdown-item" href="#">Artists I'm Following</a></li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-            </ul>
-        </li>
-    </ul>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="@Url.Action("MyEvents", "Events")">Upcoming Events</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Attending", "Events")">Gigs I'm Going</a></li>
+                    <li><a class="dropdown-item" href="#">Artists I'm Following</a></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                </ul>
+            </li>
+        </ul>
     }
 }
 else

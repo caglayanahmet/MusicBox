@@ -32,7 +32,11 @@ textarea {
 
 /*Bootstrap Overrides*/
 
-.navbar-inverse {
+.popover {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+    .navbar-inverse {
     background-color: #1a347b;
     border-color: #1a347b;
 }
@@ -41,7 +45,16 @@ textarea {
     font-weight: bold;
 }
 
-.form-group {
+.navbar-inverse .notifications {
+    position: relative;
+}
+
+.navbar-inverse .notifications .badge {
+    position: absolute;
+    top: 8px;
+    right: 0;
+}
+    .form-group {
     margin-bottom: 17px;
 }
 
@@ -131,4 +144,29 @@ span.field-validation-error {
 .events >li:hover .actions {
     display: block;
 }
+
+.popover-notifications {
+    .popover-content {
+        padding: 0;
+    }
+
+    ul.notifications {
+        list-style: none;
+        padding-left: 0;
+
+        > li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        > li:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            font-weight: bold;
+        }
+    }
+}
+
 

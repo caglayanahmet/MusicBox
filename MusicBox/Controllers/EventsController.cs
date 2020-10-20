@@ -126,7 +126,11 @@ namespace MusicBox.Controllers
             }
 
             var userId =User.Identity.GetUserId();
-            var myEvent = _context.Events.FirstOrDefault(x => x.Id == eventItem.Id && x.PerformerId == userId);
+            var myEvent = _context.Events
+                .Include(x=>x.Attendences.Select(y=>y.Attendee))
+                .FirstOrDefault(x => x.Id == eventItem.Id && x.PerformerId == userId);
+
+            myEvent.Modify(eventItem.GetDateTime(), eventItem.Address, eventItem.Genre);
 
             myEvent.Address = eventItem.Address;
             myEvent.DateTime = eventItem.GetDateTime();
