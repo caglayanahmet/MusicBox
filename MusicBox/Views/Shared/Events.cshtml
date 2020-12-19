@@ -5,6 +5,18 @@
 }
 
 <h1>@Model.Heading</h1>
+@using (Html.BeginForm("Search", "Events"))
+{
+<div class="form-group">
+    <div id="searchEvents" class="input-group" style="width: 300px">
+        @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control" })
+        <span class="input-group-addon">
+            <i class="glyphicon glyphicon-search"></i>
+        </span>
+    </div>
+</div>
+   
+}
 <ul class="events voffset3">
     @foreach (var item in Model.UpcomingEvents)
     {

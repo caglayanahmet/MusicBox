@@ -16,18 +16,28 @@ namespace MusicBox.Controllers
             _context= new ApplicationDbContext();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string query =null)
         {
             var upcomingEvents = _context.Events
                 .Include(x => x.Performer)
                 .Include(x=>x.Genre)
                 .Where(x => x.DateTime > DateTime.Now && !x.IsCancelled);
 
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                upcomingEvents = upcomingEvents
+                    .Where(x => 
+                        x.Performer.Name.Contains(query) ||
+                        x.Genre.Name.Contains(query) ||
+                        x.Address.Contains(query));
+            }
+
             var viewModel = new EventsViewModel
             {
                 UpcomingEvents = upcomingEvents,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcoming Events"
+                Heading = "Upcoming Events",
+                SearchTerm = query
             };
 
             return View("Events",viewModel);
@@ -46,5 +56,7 @@ namespace MusicBox.Controllers
 
             return View();
         }
+
+        
     }
 }

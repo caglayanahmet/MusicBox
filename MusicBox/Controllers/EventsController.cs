@@ -140,6 +140,12 @@ namespace MusicBox.Controllers
             return RedirectToAction("MyEvents", "Events");
         }
 
+        [HttpPost]
+        public ActionResult Search(EventsViewModel viewModel)
+        {
+            return RedirectToAction("Index", "Home", new {query = viewModel.SearchTerm});
+        }
+
 
     }
 }
